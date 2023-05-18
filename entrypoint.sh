@@ -7,8 +7,6 @@ echo "#################################################"
 echo "# This script performs the following steps:"
 echo "#  - Configure GIT"
 echo "#  - Build the Jekyll website"
-echo "#  - Run an ImageMagick script to create useable thumbnails for guests"
-echo "#  - Run an ImageMagick script to create featured images for posts"
 echo "#  - Copy the newly generated Jekyll site to a GitHub Pages repo"
 echo "#################################################"
 
@@ -74,54 +72,8 @@ echo "guests, and featured images"
 sh -c "bundle exec jekyll build --future"
 
 echo "#################################################"
-echo "Define script variables for the Guest Image Creator script"
-WF_GUEST_IMAGES_DIR="$env_workspace_directory/wf-00-guest-images-fi" # the workflow folder the code will run from
-WF_GUEST_IMAGES_SITE="$env_workspace_directory/_site/wf-00-guest-images-fi" #The location of the Jekyll-generated folder
-WF_GUEST_IMAGES_FILE="guest-featured-images.sh" # the script filename
-WF_GUEST_IMAGES_SCRIPT="$WF_GUEST_IMAGES_SITE/$WF_GUEST_IMAGES_FILE" # the full script folder and filename
-WF_GUEST_IMAGES_OUTPUT_DIR="$env_workspace_directory/uploads/wf-guest-images-fi" # the script will output images to this folder
-
-echo "#################################################"
-echo "Define script variables for the Featured Image Creator script"
-WF_FI_IMAGES_DIR="$env_workspace_directory/wf-01-create-fi" # the workflow folder the code will run from
-WF_FI_IMAGES_SITE="$env_workspace_directory/_site/wf-01-create-fi" #The location of the Jekyll-generated script
-WF_FI_IMAGES_FILE="create-featured-image.sh" # the script filename
-WF_FI_IMAGES_SCRIPT="$WF_FI_IMAGES_SITE/$WF_FI_IMAGES_FILE" # the full script folder and filename
-WF_FI_IMAGES_OUTPUT_DIR="$env_workspace_directory/uploads/wf-featured-images" # the script will output images to this folder
-
-echo "#################################################"
-echo "Create the workflow OUPTUT folders if they do not exist"
-
-if [ ! -d $WF_GUEST_IMAGES_OUTPUT_DIR ]; then
-  mkdir -p $WF_GUEST_IMAGES_OUTPUT_DIR;
-fi
-
-if [ ! -d $WF_FI_IMAGES_OUTPUT_DIR ]; then
-  mkdir -p $WF_FI_IMAGES_OUTPUT_DIR;
-fi
-
-echo "#################################################"
-echo "Make the workflow scripts executable"
-sh -c "chmod +x $WF_GUEST_IMAGES_SCRIPT"
-sh -c "chmod +x $WF_FI_IMAGES_SCRIPT"
-
-echo "#################################################"
-echo "Run the guest images workflow script"
-cd $WF_GUEST_IMAGES_DIR
-sh $WF_GUEST_IMAGES_SCRIPT
-cd ..
-
-echo "#################################################"
-echo "Run the featured image workflow script"
-echo "This script contains artifacts in the folder, so"
-echo "cd into the workflow folder and then cd .. after"
-cd $WF_FI_IMAGES_DIR
-sh $WF_FI_IMAGES_SCRIPT
-cd ..
-
-echo "#################################################"
 echo "Publish all images created by the scripts"
-git add uploads/\*
+git add featured-images/\*
 git status
 
 echo "#################################################"
