@@ -73,7 +73,7 @@ sh -c "bundle exec jekyll build --future"
 
 echo "#################################################"
 echo "Make the OpenAI Dall-E script executable"
-WF_FEATURED_IMAGES_SCRIPT = "create-featured-image.sh"
+WF_FEATURED_IMAGES_SCRIPT="create-featured-image.sh"
 sh -c "chmod +x $WF_FEATURED_IMAGES_SCRIPT"
 
 echo "#################################################"
