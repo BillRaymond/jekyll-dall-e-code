@@ -114,7 +114,7 @@ echo "Second Jekyll build done"
 echo "#################################################"
 echo "Now publishing to remote repo"
 ls -ltar
-cd $env_workspace_directory/_site
+cd $env_workspace_directory/jekyll-dall-e-website/_site
 ls -ltar
 git log -2
 git remote -v
